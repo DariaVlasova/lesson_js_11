@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>
+        Задача 3. Морський бій. Випадковим чином на двовимірному полі розміром
+        6*6 розташовується 5 кораблів. Користувач стріляє вказуючи координати.
+        Гра продовжується поки не потоплено усі кораблі або у користувача не
+        закінчаться снаряди.
+      </h1>
+      <a class="button" href="./index.html">Повернутись до задач</a>
+      <script>
+        function getRandom(minValue, maxValue) {
+          return (
+            Math.floor(Math.random() * (maxValue - minValue + 1)) + minValue
+          );
+        }
+        const width = 6;
+        const height = 6;
+        let ships = 5;
+        let shots = prompt("Введіть кількість снарядів");
+        //Створюємо поле
+        function getBattleField(width, height) {
+          const battleField = [];
+          for (let row = 0; row < height; row++) {
+            const rowCoordinate = [];
+            for (let column = 0; column < width; column++) {
+              rowCoordinate[column] = 0;
+            }
+            battleField.push(rowCoordinate);
+          }
+          return battleField;
+        }
+
+        // Розташовуємо кораблі на полі
+        const battleField = getBattleField(width, height);
+        let shipCounter = 0;
+
+        while (shipCounter < ships) {
+          if (battleField[getRandom(0, 5)][getRandom(0, 5)] === 0) {
+            battleField[getRandom(0, 5)][getRandom(0, 5)] = 1;
+            shipCounter++;
+          }
+        }
+        console.log(battleField);
+        //гра
+        while (ships > 0) {
+          const userRow = prompt("Куди стріляти по горизонталі?") - 1;
+          const userСolumn = prompt("Куди стріляти по вертикалі?") - 1;
+
+          shots--;
+          if (battleField[userRow][userСolumn] === 1) {
+            battleField[userRow][userСolumn] = 0;
+            ships--;
+            alert(
+              `Ви попали, у вас залишилось ${shots} пострілів та ${ships} кораблів`
+            );
+          } else {
+            alert(
+              `Ви не попали, у вас залишилось ${shots} пострілів та ${ships} кораблів`
+            );
+          }
+          if (shots === 0) break;
+        }
+
+        if (ships === 0) alert("Ви перемогли");
+        else alert("Ви програли");
+      </script>
+    </div>
+  </body>
+</html>

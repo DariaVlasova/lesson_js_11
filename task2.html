@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css"> 
+</head>
+<body>
+    <div class="container">
+    <h1>Задача 2. Дано інформацію про прибуток К магазинів протягом тижня. Знайти :
+1) загальний прибуток кожного масиву за тиждень;
+2) загальний прибуток усіх магазинів по дням (загальний прибуток усіх магазинів за понеділок, за вівторок, і т.д.);
+3) загальний прибуток за робочі дні
+4) загальний прибуток за вихідні дні
+5) максимальний прибуток за середу
+6) сформувати загальний список (одновимірний масив) зі значенням, які що більші за 200
+7) відсортувати кожен тиждень за зростанням
+8) відсортувати тижні (рядки) за спаданням максимального елементи у цьому тижні (рядку), тобто при порівнянні рядків потрібно порівнювати максимальні елементи у кожному з цих рядків
+8) упорядкувати тижні (рядки) за спаданням суми елементів у рядку (тобто при порівнянні двох рядків треба знайти суму кожного з рядків і порівнювати ці суми, на основі цих сум буде зрозуміло, який з елементів повинен іти раніше).
+
+
+    </h1>
+    <a href="./index.html">Повернутись до задач</a>
+    
+        <script>
+            function getRandomNumber(minValue,maxValue){
+return minValue + Math.floor(Math.random()*(maxValue-minValue+1))
+            }
+            function generateRandomArray(arrayLength,minValue,maxValue){
+                const arr=[]
+                for (let i=0; i< arrayLength; i++){
+                    const randNum=getRandomNumber(minValue,maxValue)
+                    arr.push(randNum)
+                }
+                return arr
+            }
+            function generateRandomTable(rowsNumber,columnsNumber,minValue,maxValue){
+                const table=[]
+                for (let i=0; i<rowsNumber; i++){
+                    const randomRow=generateRandomArray(columnsNumber,minValue,maxValue)
+                    table.push(randomRow)
+                }
+                return table
+            }
+  let matr = generateRandomTable(4,7,1,1000)
+ 
+//---------------------------загальний прибуток кожного масиву за тиждень;------------------------
+
+  
+  for (let row=0; row < matr.length; row++){
+     let sum=0
+     for (let column=0; column < matr[row].length; column++){
+      sum += matr[row][column]
+     }
+   document.write(`${row+1} Загальний прибуток магазину №${row+1} за тиждень: ${sum}грн <br>`)
+    }
+  
+ //----------- загальний прибуток усіх магазинів по дням (загальний прибуток усіх магазинів за понеділок, за вівторок, і т.д.);------
+  for (let day = 0; day < 7; day++) {
+        let totalDaySum = 0;
+        let currentDay = "";
+        for (let shop = 0; shop < matr.length; shop++) {
+          totalDaySum += matr[shop][day];
+        }
+        switch (day) {
+          case 0:
+            currentDay = "понеділок";
+            break;
+          case 1:
+            currentDay = "вторник";
+            break;
+          case 2:
+            currentDay = "середу";
+            break;
+          case 3:
+            currentDay = "четвер";
+            break;
+          case 4:
+            currentDay = "п'ятницу";
+            break;
+          case 5:
+            currentDay = "суботу";
+            break;
+          case 6:
+            currentDay = "неділю";
+            break;
+        }
+        document.write(
+          `Прибуток магазинів за ${currentDay}: ${totalDaySum} грн <br>`
+        );
+      }
+//-------------------- загальний прибуток за робочі дні------------------
+   let totalWorkDaySum = 0;
+for (let day = 0; day <= 4; day++) {
+  for (let shop = 0; shop < matr.length; shop++) {
+          totalWorkDaySum += matr[shop][day];
+        }
+      
+    }
+     document.write(
+          `Прибуток магазинів за робочі дні: ${totalWorkDaySum} грн <br>`
+        ); 
+//----------------------------загальний прибуток за вихідні дні---------------
+ let totalDayOffSum = 0;
+for (let day = 5; day <= 6; day++) {
+  for (let shop = 0; shop < matr.length; shop++) {
+          totalDayOffSum += matr[shop][day];
+        }
+      
+    }
+     document.write(
+          `Прибуток магазинів за вихідні дні: ${totalDayOffSum} грн <br>`
+        ); 
+//------------------------------- максимальний прибуток за середу---------
+
+ let allProfitInWednesday = []
+      for (let row = 0; row < matr.length; row++) {
+        for (let column = 2; column < 3; column++) {
+          if (column === 2) allProfitInWednesday.push(matr[row][column])
+        }
+      }
+      const maxProfitInWednesday = Math.max(...allProfitInWednesday)
+      
+    document.write (`Максимальний прибуток за середу  ${maxProfitInWednesday}грн<br>`)
+
+//------------------------------сформувати загальний список (одновимірний масив) зі значенням, які більші за 200------------------
+const greaterThan200=[]
+for ( const row of matr){
+    for( const element of row){
+    if( element > 200) greaterThan200.push(element)
+}
+}
+document.write(`Одновимірний масив зі значенням, які більші за 200 <br> ${greaterThan200}<br>`)
+//---------------------------відсортувати кожен тиждень за зростанням----------------
+ let arrGrow = JSON.parse(JSON.stringify(matr)) //робимо копію масиву, адже без копії базовий масив теж сортується
+      for (const row of arrGrow) {
+        for (const column of row) {
+          row.sort((el1, el2) => el1 - el2)
+        }
+      }
+     document.write(`Відсортувати кожен тиждень за зростанням:"${arrGrow}"<br>`)
+//---------------------------- відсортувати тижні (рядки) за спаданням максимального елементи у цьому тижні (рядку),
+//----------------------- тобто при порівнянні рядків потрібно порівнювати максимальні елементи у кожному з цих рядків
+ let growToLower = JSON.parse(JSON.stringify(matr))
+      growToLower.sort((el1, el2) => Math.max(...el2) - Math.max(...el1))
+     
+document.write(`Відсортувати тижні (рядки) за спаданням максимального елементи у цьому тижні (рядку):"${growToLower}"<br>`)
+//---------------------------упорядкувати тижні (рядки) за спаданням суми елементів у рядку 
+//(тобто при порівнянні двох рядків треба знайти суму кожного з рядків і порівнювати ці суми, 
+//на основі цих сум буде зрозуміло, який з елементів повинен іти раніше).
+let sumMaxToLow = JSON.parse(JSON.stringify(matr))
+      sumMaxToLow.sort((el1, el2) => {
+        return el2.reduce((prevSum, el) => prevSum + el) - el1.reduce((prevSum, el) => prevSum + el)
+      })
+     document.write(`Упорядкувати тижні (рядки) за спаданням суми елементів у рядку: "${sumMaxToLow}"`)
+</script>
+</body>
+
+</html>

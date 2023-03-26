@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css"> 
+</head>
+<body>
+    <div class="container">
+    <h1>Задача 1. Знайти суми елементів у вказаній області
+1)Верхній лівий кут
+2)Верхній правий кут
+3)Нижній лівий кут 
+4)Нижній правий кут
+5) Суму парних рядків
+6) Суму непарних стовпців
+7) У парних рядках – непарні стовпці, у непарних – парні.
+
+    </h1>
+    <a href="./index.html">Повернутись до задач</a>
+ <script>
+let matr=[
+  [7,15,23,35],
+  [7,15,23,35],
+  [7,15,23,35],
+  [7,15,23,35],
+]
+const tableHeight=4
+const tableWidth=4
+const middleTableHeight=Math.floor(tableHeight/2)
+const middleTableWidth= Math.floor(tableWidth/2)
+ function getTableSum(firstSumRow,lastSumRow,firstSumColumn,lastSumColumn,tableArr){
+  let sumUpperLeftCorner = 0
+    for (let row = firstSumRow; row < lastSumRow; row++)
+        for (let column = firstSumColumn; column < lastSumColumn; column++)
+            sumUpperLeftCorner += tableArr[row][column]
+
+    return sumUpperLeftCorner
+
+ }
+ const sumUpperLeftCorner = getTableSum(
+    0,
+    middleTableHeight,
+    0,
+    middleTableWidth,
+    matr
+)
+
+const sumUpperRightCorner = getTableSum(
+    0,
+    middleTableHeight,
+    middleTableWidth,
+    tableWidth,
+    matr
+)
+
+const sumBottomLeftCorner = getTableSum(
+    middleTableHeight,
+    tableHeight,
+    0,
+    middleTableWidth,
+    matr
+)
+
+const sumBottomRightCorner = getTableSum(
+    middleTableHeight,
+    tableHeight,
+    middleTableWidth,
+    tableWidth,
+    matr
+)
+
+document.write(
+    `1)Сума у верхньому лівому кутку таблиці дорівнює ${sumUpperLeftCorner}.<br>
+     2)Сума у верхньому правому кутку таблиці дорівнює ${sumUpperRightCorner}.<br>
+     3)Сума у нижньому лівому кутку таблиці дорівнює ${sumBottomLeftCorner}.<br>
+     4)Сума у нижньому правому кутку таблиці дорівнює ${sumBottomRightCorner}.<br>`
+)
+//--------------------знаходимо суму парних рядків------------
+function getSumEvenRows(tableArr){
+  let sumEvenRows=0
+  for (let row=0; row < tableArr.length; row++)
+  if ((row +1)%2===1)
+   for (let column=0; column < tableArr[row].length; column++)
+     sumEvenRows+=tableArr[row][column]
+  return sumEvenRows
+}
+ const sumEvenRows= getSumEvenRows(matr)
+ document.write(`5)Сума парних рядків: ${sumEvenRows}<br>`)
+ //======================знаходимо суму непарних стовпців============
+ function getSumNotEvenColumns(tableArr){
+  let sumNotEvenColumns=0
+  for (let row=0; row < tableArr.length; row++)
+    for (let column=0; column < tableArr[row].length; column++)
+    if ((column +1)%2!==1)
+     sumNotEvenColumns += tableArr[row][column]
+  return  sumNotEvenColumns
+}
+ const sumNotEvenColumns= getSumNotEvenColumns(matr)
+ document.write(`6)Сума непарних стовпців: ${sumNotEvenColumns}<br>`)
+ //========================знаходимо суму у парних рядках – непарніх стовпців, у непарних рядках – парніх стовпців..
+ function getSum(matr){
+  let sum=0
+  for (let row=0; row < matr.length; row++){
+     for (let column=(1-row%2); column < matr[row].length; column+=2){
+      sum += matr[row][column]
+     }
+    }
+  return  sum
+}
+ const sum= getSum(matr)
+ document.write(`7)Сума у непарних рядках - парних стовпців,у парних рядках – непарніх стовпців: ${sum}<br>`)
+ 
+         </script>
+     
+   
+</body>
+</html>
